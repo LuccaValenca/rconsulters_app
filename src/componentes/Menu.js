@@ -1,16 +1,53 @@
 import React, { Component } from 'react';
-import { ImageBackground, View, Text, StatusBar } from 'react-native';
+import { ImageBackground, View, Text, StatusBar, TouchableOpacity } from 'react-native';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export default class Menu extends Component {
+    constructor(props) {
+        super(props);
+        this.handleDemoButtonPress = this.handleDemoButtonPress.bind(this);
+    }
+
+    handleDemoButtonPress() {
+        this.props.navigation.navigate('TelaDemo');
+    }
+
     render () {
         return (
-            <ImageBackground style={{flex: 1, width: 'auto'}} source={require('../imgs/bg.jpg')}>
+            <ImageBackground style={{flex: 1, width: 'auto', justifyContent: 'center', alignItems: 'center',flexDirection: 'row',}} source={require('../imgs/bg.jpg')}>
                 <StatusBar
                     backgroundColor="#f5ad00"
                     barStyle="light-content"
                 />
                 <View style={estilo.container}>
-                    <Text style={estilo.boasVindas}> Menu </Text>
+                    <TouchableOpacity style={estilo.button}>
+                        <Text style={estilo.icones}>
+                            <FontAwesome>{Icons.camera}</FontAwesome>
+                        </Text>
+                        <Text style={estilo.txtBtn}>CÂMERA</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={estilo.button}>
+                        <Text style={estilo.icones}>
+                            <FontAwesome>{Icons.globe}</FontAwesome>
+                        </Text>
+                        <Text style={estilo.txtBtn}>GEOLOCALIZAÇÃO</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={estilo.button} onPress={() => this.props.navigation.navigate('TelaDemo')}>
+                        <Text style={estilo.icones}>
+                            <FontAwesome>{Icons.laptop}</FontAwesome>
+                        </Text>
+                        <Text style={estilo.txtBtn}>DEMONSTRAÇÃO</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={estilo.button}>
+                        <Text style={estilo.icones}>
+                            <FontAwesome>{Icons.envelope}</FontAwesome>
+                        </Text>
+                        <Text style={estilo.txtBtn}>CONTATO</Text>
+                    </TouchableOpacity>
+
                 </View>
             </ImageBackground>
         );
@@ -20,13 +57,28 @@ export default class Menu extends Component {
 
 const estilo = {
     container: {
-        flex: 2,
         padding: 10,
-        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         justifyContent: 'center',
     },
-    boasVindas: {
-        fontSize: 22,
-        color: '#fff',
+    icones: {
+        margin: 10,
+        fontSize: 60,
+        textAlign: 'center',
+        color: '#f5ad00',
     },
+    button: {
+        padding: 15,
+        width: 250,
+        height: 150,
+        backgroundColor: '#fff',
+        margin: 5,
+        elevation: 5,
+    },
+    txtBtn: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#f5ad00',
+    }
 }
