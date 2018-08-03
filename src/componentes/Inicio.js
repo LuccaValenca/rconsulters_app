@@ -1,0 +1,41 @@
+import React, { Component } from 'react';
+import { ImageBackground, View, Text, StatusBar } from 'react-native';
+import Menu from './Menu';
+
+export default class Inicio extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { tempo: false };
+    }
+    render () {
+        setTimeout(() => {this.setState({tempo: true})}, 2000);
+        if(this.state.tempo) {
+            return <Menu/>
+        } else {
+            return (
+                <ImageBackground style={{flex: 1, width: 'auto'}} source={require('../imgs/bg.jpg')}>
+                    <StatusBar
+                        backgroundColor="#f5ad00"
+                        barStyle="light-content"
+                    />
+                    <View style={estilo.container}>
+                        <Text style={estilo.boasVindas}> Bem Vindo </Text>
+                    </View>
+                </ImageBackground>
+            );
+        }
+    }
+};
+
+const estilo = {
+    container: {
+        flex: 2,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    boasVindas: {
+        fontSize: 22,
+        color: '#fff',
+    },
+}
