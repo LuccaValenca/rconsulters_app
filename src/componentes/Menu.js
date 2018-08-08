@@ -20,7 +20,7 @@ export default class Menu extends Component {
                     barStyle="light-content"
                 />
                 <View style={estilo.container}>
-                    <TouchableOpacity style={estilo.button}>
+                    <TouchableOpacity style={estilo.button} onPress={() => this.props.navigation.navigate('TelaCamera')}>
                         <Text style={estilo.icones}>
                             <FontAwesome>{Icons.camera}</FontAwesome>
                         </Text>

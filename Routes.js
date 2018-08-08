@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import Inicio from './src/componentes/Inicio';
 import Menu from './src/componentes/Menu';
 import Demo from './src/componentes/Demo';
+import Camera from './src/componentes/Camera';
 
 const Routes = StackNavigator (
     {
@@ -13,6 +14,12 @@ const Routes = StackNavigator (
         },
         TelaMenu: { 
             screen: Menu,
+            navigationOptions: ({ navigation }) => ({
+                header: false,
+            }),
+        },
+        TelaCamera: { 
+            screen: Camera,
             navigationOptions: ({ navigation }) => ({
                 header: false,
             }),
