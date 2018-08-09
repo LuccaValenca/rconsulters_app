@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StatusBar, Dimensions, TouchableOpacity, Image, PermissionsAndroid } from 'react-native';
 import { RNCamera }  from 'react-native-camera';
+import RNFS  from 'react-native-fs';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import { dirPicutures } from './utils/dirStorage';
+import RNFetchBlob from 'rn-fetch-blob';
 
 export default class Camera extends Component {
     constructor(props) {
@@ -16,10 +19,25 @@ export default class Camera extends Component {
 
     takePicture = async () => {
         if (this.camera) {
-            const options = { quality: 0.5, base64: true };
-            const data = await this.camera.takePictureAsync(options);
-            this.setState({ image: data.uri });
+            const options = { quality: 0.5, base64: true, mirrorImage: ( this.state.tipoFacil != 1 ) ? false : false , exif: true };
+            const data = await this.camera.takePictureAsync(options);            
+            this.saveImage(data.uri);
         }
+    };
+
+    saveImage = async filePath => {
+        let newFilepath = false;
+        try {
+            let now = new Date;
+            // set new image name and filepath
+            const newImageName = `IMG_${now.getFullYear()}${((now.getMonth() + 1 > 9)) ? now.getMonth() + 1 : '0'+(now.getMonth() + 1)}${'0'+now.getDate()}_${now.getHours()}${now.getMinutes()}${now.getSeconds()}.jpg`;
+            newFilepath = `${dirPicutures}/${newImageName}`;
+
+            // move and save image to new filepath
+            const imageMoved = await moveAttachment(filePath, newFilepath);
+        } catch (error) {
+            alert(error);
+        }        
     };
 
     trocarCamera() {
@@ -51,16 +69,18 @@ export default class Camera extends Component {
                     source={{ uri: this.state.image }}
                     style={estilo.preview}
                 />
-                <Text onPress={() => this.setState({ image: false })}>
-                    Cancelar
-                </Text>
+                <View style={{backgroundColor: '#000', marginBottom: -20}}>
+                    <Text style={{fontSize: 23, marginHorizontal: 20, marginTop: 10, marginBottom: 15, color: '#fff'}} onPress={() => this.setState({ image: false })}>
+                        Voltar
+                    </Text>
+                </View>
             </View>
           );
     }
 
     renderCamera() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 2}}>
                 <StatusBar hidden={true} />
                 <RNCamera
                     ref={ref => {
@@ -119,6 +139,45 @@ export default class Camera extends Component {
         );       
     }
 }
+
+const moveAttachment = async (filePath, newFilepath) => {
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
+          title: "Permissão de armazenamento",
+          message: "Permissão para armazenar a imagem capturada",
+        },
+    );
+
+    if(granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return new Promise((resolve, reject) => {
+            RNFS.mkdir(dirPicutures)
+              .then(() => {
+                  RNFS.moveFile(filePath, newFilepath)
+                        .then(() => {
+                            RNFetchBlob.fs.scanFile([ { path : newFilepath, mime : 'image/jpeg' } ])
+                            .then(() => {
+                                console.log("scan file success")
+                            })
+                            .catch((err) => {
+                                console.log("scan file error")
+                            })
+                            resolve(true);
+                        })
+                        .catch(error => {
+                            console.log('moveFile error', error);
+                            reject(error);
+                        });
+              }) 
+              .catch(err => {
+                  console.log('mkdir error', err);
+                  reject(err);
+              });
+          });
+    }
+
+    return("Permissão não habilitada");
+    
+};
 
 const estilo = {
     container: {
