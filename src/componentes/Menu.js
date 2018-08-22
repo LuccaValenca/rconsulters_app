@@ -27,7 +27,7 @@ export default class Menu extends Component {
                         <Text style={estilo.txtBtn}>CÂMERA</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={estilo.button}>
+                    <TouchableOpacity style={estilo.button} onPress={() => this.props.navigation.navigate('TelaGeolocalizacao')}>
                         <Text style={estilo.icones}>
                             <FontAwesome>{Icons.globe}</FontAwesome>
                         </Text>
