@@ -41,7 +41,7 @@ export default class Menu extends Component {
                         <Text style={estilo.txtBtn}>DEMONSTRAÇÃO</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={estilo.button}>
+                    <TouchableOpacity style={estilo.button} onPress={() => this.props.navigation.navigate('TelaContato')}>
                         <Text style={estilo.icones}>
                             <FontAwesome>{Icons.envelope}</FontAwesome>
                         </Text>

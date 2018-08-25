@@ -4,6 +4,7 @@ import Menu from './src/componentes/Menu';
 import Demo from './src/componentes/Demo';
 import Geo from './src/componentes/Geo';
 import Camera from './src/componentes/Camera';
+import Contato from './src/componentes/Contato';
 
 const Routes = StackNavigator (
     {
@@ -29,6 +30,19 @@ const Routes = StackNavigator (
             screen: Demo,
             navigationOptions: ({ navigation }) => ({
                 title: 'Demonstração',
+                headerTitleStyle: {
+                    color: '#fff',
+                    fontWeight: '100',
+                },
+                headerStyle: {
+                    backgroundColor: '#f5ad00'
+                },
+            }),
+        },
+        TelaContato: {
+            screen: Contato,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Entre em Contato',
                 headerTitleStyle: {
                     color: '#fff',
                     fontWeight: '100',
