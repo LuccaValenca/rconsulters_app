@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 import Inicio from './src/componentes/Inicio';
 import Menu from './src/componentes/Menu';
 import Demo from './src/componentes/Demo';
@@ -73,5 +73,21 @@ const Routes = StackNavigator (
       initialRouteName: 'TelaInicio',
     }
 );
+
+const defaultGetStateForAction = Routes.router.getStateForAction;
+
+Routes.router.getStateForAction = (action, state) => {
+    if (
+        state &&
+        action.type === NavigationActions.BACK &&
+        state.routes[state.index].routeName === "TelaMenu"
+    ) {
+        // Returning null from getStateForAction means that the action
+        // has been handled/blocked, but there is not a new state
+        return null;
+    }
+  
+    return defaultGetStateForAction(action, state);
+};
 
 export default Routes;

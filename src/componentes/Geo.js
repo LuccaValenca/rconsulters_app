@@ -24,21 +24,21 @@ export default class Geo extends Component {
             { enableHighAccuracy: false }
         );
 
-        this.watchID = navigator.geolocation.watchPosition(
-            position => {
-                this.setState({ 
-                    lat: position.coords.latitude, 
-                    lng: position.coords.longitude
-                });
-            }, 
-            error => alert('ERROR(' + error.code + '): ' + error.message), 
-            { enableHighAccuracy: false },
-        );
+        // this.watchID = navigator.geolocation.watchPosition(
+        //     position => {
+        //         this.setState({ 
+        //             lat: position.coords.latitude, 
+        //             lng: position.coords.longitude
+        //         });
+        //     }, 
+        //     error => alert('ERROR(' + error.code + '): ' + error.message), 
+        //     { enableHighAccuracy: false },
+        // );
          
     }
 
     componentWillUnmount(){
-        navigator.geolocation.clearWatch(this.watchID);
+        //navigator.geolocation.clearWatch(this.watchID);
     }
 
     pedirPermissao = async () => {
@@ -82,17 +82,7 @@ export default class Geo extends Component {
                     followsUserLocation={true}
                     showsUserLocation={true}
                     showsMyLocationButton={true}
-                >
-                    
-                    <Marker
-                        coordinate={{
-                            latitude: this.state.lat,
-                            longitude: this.state.lng,
-                        }}
-                        title="Você está aqui"
-                        description="Sua localização atual!"
-                    />
-                    
+                >                    
                 </MapView>
             </View>
         );
