@@ -147,6 +147,15 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/README.txt'
+        exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
+        exclude 'META-INF/services/org.apache.commons.logging.LogFactory'
+    }
 }
 
 dependencies {
