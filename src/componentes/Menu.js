@@ -5,11 +5,16 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 export default class Menu extends Component {
     constructor(props) {
         super(props);
-        this.handleDemoButtonPress = this.handleDemoButtonPress.bind(this);
+        this.handleGeoButtonPress = this.handleGeoButtonPress.bind(this);
     }
 
-    handleDemoButtonPress() {
-        this.props.navigation.navigate('TelaDemo');
+    handleGeoButtonPress() {
+        const per = pedirPermissao();
+        if(per) {
+            this.props.navigation.navigate('TelaGeolocalizacao');
+        } else {
+            alert('Permissão para acesso a localização recusado!');
+        }        
     }
 
     render () {
@@ -27,7 +32,7 @@ export default class Menu extends Component {
                         <Text style={estilo.txtBtn}>CÂMERA</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={estilo.button} onPress={() => this.props.navigation.navigate('TelaGeolocalizacao')}>
+                    <TouchableOpacity style={estilo.button} onPress={() => this.handleGeoButtonPress()}>
                         <Text style={estilo.icones}>
                             <FontAwesome>{Icons.globe}</FontAwesome>
                         </Text>
@@ -54,6 +59,17 @@ export default class Menu extends Component {
     }
     
 };
+
+const pedirPermissao = async () => {
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+          title: "Permissão de localização",
+          message: "Permissão para acessar a localização atual do dispositivo",
+        },
+    );
+
+    return (granted === PermissionsAndroid.RESULTS.GRANTED) ? true : false;
+}
 
 const estilo = {
     container: {

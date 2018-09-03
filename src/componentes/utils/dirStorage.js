@@ -6,5 +6,5 @@ export const dirHome = Platform.select({
   android: `${RNFS.ExternalStorageDirectoryPath}/DCIM`
 });
 
-export const dirPicutures = `${dirHome}`;
+export const dirPicutures = `${dirHome}/Camera`;
 export const dirAudio = `${dirHome}/Audio`;

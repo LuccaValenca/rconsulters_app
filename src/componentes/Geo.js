@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { View, StatusBar, PermissionsAndroid } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { View, StatusBar, PermissionsAndroid, ActivityIndicator } from 'react-native';
+import MapView from 'react-native-maps';
 
 export default class Geo extends Component {
     constructor(props) {
         super(props);
-        this.state = { lat: 23.5431786, lng: 46.6291845 };
+        this.state = { lat: false, lng: false };
 
         this.observarPosicao = this.observarPosicao.bind(this);
-        //this.pedirPermissao = this.pedirPermissao.bind(this);
     }
 
     observarPosicao() {
@@ -37,57 +36,57 @@ export default class Geo extends Component {
          
     }
 
-    componentWillUnmount(){
-        //navigator.geolocation.clearWatch(this.watchID);
-    }
-
-    pedirPermissao = async () => {
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-              title: "Permissão de localização",
-              message: "Permissão para acessar a localização atual do dispositivo",
-            },
-        );
-
-        return (granted === PermissionsAndroid.RESULTS.GRANTED) ? true : false;
-    }
-
     componentDidMount() {
-        const per = this.pedirPermissao();
-        if(per) {
+      
             this.observarPosicao();
-        } else {
-            alert('Permissão para acesso a localização recusado!');
-        }
+        
     }
 
     render() {
-        console.log(this.state);
-        return (
-            <View style={{ flex: 1 }}>
-                <StatusBar
-                    backgroundColor="#f5ad00"
-                    barStyle="light-content"
-                />
-                <MapView style={estilo.mapa}
-                    region={{
-                        latitude: this.state.lat,
-                        longitude: this.state.lng,
-                        latitudeDelta: 0.1,
-                        longitudeDelta: 0.1,
-                    }}
-                    minZoomLevel={18}
-                    loadingEnabled={true}
-                    loadingIndicatorColor={'#f5ad00'}
-                    followsUserLocation={true}
-                    showsUserLocation={true}
-                    showsMyLocationButton={true}
-                >                    
-                </MapView>
-            </View>
-        );
+        if(!this.state.lng) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color="#f5ad00" />
+                </View>
+            );
+        } else {
+            return (
+                <View style={{ flex: 1 }}>
+                    <StatusBar
+                        backgroundColor="#f5ad00"
+                        barStyle="light-content"
+                    />
+                    <MapView style={estilo.mapa}
+                        region={{
+                            latitude: this.state.lat,
+                            longitude: this.state.lng,
+                            latitudeDelta: 0.1,
+                            longitudeDelta: 0.1,
+                        }}
+                        minZoomLevel={18}
+                        loadingEnabled={true}
+                        loadingIndicatorColor={'#f5ad00'}
+                        followsUserLocation={true}
+                        showsUserLocation={true}
+                        showsMyLocationButton={true}
+                    >                    
+                    </MapView>
+                </View>
+            );
+        }
     }
 }
+
+// const pedirPermissao = async () => {
+//     const granted = await PermissionsAndroid.request(
+//         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+//           title: "Permissão de localização",
+//           message: "Permissão para acessar a localização atual do dispositivo",
+//         },
+//     );
+
+//     return (granted === PermissionsAndroid.RESULTS.GRANTED) ? true : false;
+// }
 
 const estilo = {
     mapa: {
