@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, View, Text, StatusBar } from 'react-native';
+import { ImageBackground, View, StatusBar, Image } from 'react-native';
 
 export default class Inicio extends Component {
     constructor(props) {
@@ -15,11 +15,11 @@ export default class Inicio extends Component {
         return (
             <ImageBackground style={{flex: 1, width: 'auto'}} source={require('../imgs/bg.jpg')}>
                 <StatusBar
-                    backgroundColor="#f5ad00"
+                    backgroundColor="#293239"
                     barStyle="light-content"
                 />
                 <View style={estilo.container}>
-                    <Text style={estilo.boasVindas}> Bem Vindo </Text>
+                    <Image source={require('../imgs/r.png')} />
                 </View>
             </ImageBackground>
         );

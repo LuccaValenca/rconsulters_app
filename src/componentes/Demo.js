@@ -6,7 +6,7 @@ export default class Demo extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar
-                    backgroundColor="#f5ad00"
+                    backgroundColor="#293239"
                     barStyle="light-content"
                 />
                 <WebView

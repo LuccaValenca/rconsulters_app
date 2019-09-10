@@ -62,7 +62,7 @@ export default class Camera extends Component {
         return (
             <View>
                 <StatusBar
-                    backgroundColor="#f5ad00"
+                    backgroundColor="#293239"
                     barStyle="light-content"
                 />
                 <Image

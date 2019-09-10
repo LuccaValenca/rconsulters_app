@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, View, StatusBar, Text, TouchableOpacity, Linking } from 'react-native';
+import { TextInput, View, StatusBar, Text, TouchableOpacity, Linking, ActivityIndicator } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export default class Contato extends Component {
@@ -15,15 +15,16 @@ export default class Contato extends Component {
             tipo: 'app',
             retorno: '',
             retornoEstilo: {},
-            telWhats: '',
+
+            telWhats: false,
             msgWhats: '',
         }
 
         this.enviarContato = this.enviarContato.bind(this);
     }
 
-    componentDidMount() { 
-        const url = 'http://r-consulters.com.br/themes/rconsulters/inc/getTel.php';
+    componentWillMount() { 
+        const url = 'https://r-consulters.com.br/themes/rconsulters/inc/getTel.php';
         fetch(url, {
             method: 'POST',
             headers: {
@@ -33,16 +34,15 @@ export default class Contato extends Component {
         })
         .then(resp => resp.json())
         .then(resp => {
+            
             this.setState({ telWhats: resp.tel });
             this.setState({ msgWhats: (this.state.mensagem != '') ? encodeURI(this.state.mensagem) : encodeURI('Olá, gostaria de conversar sobre um projeto.') });
 
-        });
-
-        
+        });        
     }
 
     enviarContato() {
-        const url = 'http://r-consulters.com.br/themes/rconsulters/inc/enviaContato.php';
+        const url = 'https://r-consulters.com.br/themes/rconsulters/inc/enviaContato.php';
         fetch(url, {
             method: 'POST',
             headers: {
@@ -81,10 +81,23 @@ export default class Contato extends Component {
 
     render() {
         const url = `https://api.whatsapp.com/send?phone=${this.state.telWhats}&text=${this.state.msgWhats}`;
+        let atv = '';
+        if(!this.state.telWhats) {
+            atv = <ActivityIndicator size="large" color="#fff" />;
+        } else {
+            atv = (
+                <View style={{ flex: 1, flexDirection: 'row', }}>
+                    <Text style={estilo.icones}>
+                        <FontAwesome>{Icons.whatsapp}</FontAwesome>
+                    </Text>
+                    <Text style={[estilo.txtBtn, {paddingTop: 15}]}>WHATSAPP</Text>
+                </View>
+                );
+        }
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
                 <StatusBar
-                    backgroundColor="#f5ad00"
+                    backgroundColor="#293239"
                     barStyle="light-content"
                 />
                 <View style={estilo.containerForm}>
@@ -150,11 +163,8 @@ export default class Contato extends Component {
                         <Text style={estilo.txtBtn}>ENVIAR</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[estilo.containerLineForm, estilo.button]} onPress={() => Linking.openURL(url).catch(err => console.error('An error occurred', err))}>
-                        <Text style={estilo.icones}>
-                            <FontAwesome>{Icons.whatsapp}</FontAwesome>
-                        </Text>
-                        <Text style={estilo.txtBtn}>WHATSAPP</Text>
+                    <TouchableOpacity disabled={ (!this.state.telWhats) ? true : false } style={[estilo.containerLineForm, estilo.button]} onPress={() => Linking.openURL(url).catch(err => console.error('An error occurred', err))}>
+                        {atv}
                     </TouchableOpacity>
                 </View>
                 <View style={estilo.conteinerResposta}>
@@ -167,7 +177,7 @@ export default class Contato extends Component {
 
 const estilo = {
     containerForm: {flex: 2, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'},
-    containerLineForm: {flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, paddingVertical: 20},
+    containerLineForm: {flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10, paddingVertical: 20},
     conteinerResposta: {flex: 1, paddingHorizontal: 15, paddingVertical: 20, justifyContent: 'center', alignItems: 'center'},
     inputText: { flex: 1, color: '#7c7c7c', textDecorationColor: '#f5ad00', fontSize: 18, height: 70 },
     txtRetorno: { fontSize: 20 },
@@ -175,5 +185,5 @@ const estilo = {
     inputTextMarginL: {marginLeft: 5},
     inputTextMarginR: {marginRight: 5},
     icones: { margin: 10, fontSize: 35, textAlign: 'center', color: '#ffffff' },
-    txtBtn: { fontSize: 18, textAlign: 'center', color: '#ffffff' }
+    txtBtn: { fontSize: 18, textAlign: 'center', color: '#ffffff',  }
 }

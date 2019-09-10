@@ -3,6 +3,8 @@ package com.rconsulters;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
+import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.rnfs.RNFSPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNAndroidLocationEnablerPackage(),
+            new LocationServicesDialogBoxPackage(),
             new RNFetchBlobPackage(),
             new MapsPackage(),
             new RNFSPackage(),

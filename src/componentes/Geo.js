@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StatusBar, PermissionsAndroid, ActivityIndicator } from 'react-native';
+import { View, StatusBar, ActivityIndicator, DeviceEventEmitter } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class Geo extends Component {
@@ -20,7 +20,7 @@ export default class Geo extends Component {
                 });
             },
             (error) => alert(error.message),
-            { enableHighAccuracy: false }
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000  }
         );
 
         // this.watchID = navigator.geolocation.watchPosition(
@@ -37,9 +37,7 @@ export default class Geo extends Component {
     }
 
     componentDidMount() {
-      
-            this.observarPosicao();
-        
+        this.observarPosicao();
     }
 
     render() {
@@ -53,7 +51,7 @@ export default class Geo extends Component {
             return (
                 <View style={{ flex: 1 }}>
                     <StatusBar
-                        backgroundColor="#f5ad00"
+                        backgroundColor="#293239"
                         barStyle="light-content"
                     />
                     <MapView style={estilo.mapa}

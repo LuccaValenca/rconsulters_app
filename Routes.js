@@ -30,12 +30,13 @@ const Routes = StackNavigator (
             screen: Demo,
             navigationOptions: ({ navigation }) => ({
                 title: 'Demonstração',
+                headerTintColor: '#f5ad00',
                 headerTitleStyle: {
-                    color: '#fff',
+                    color: '#f5ad00',
                     fontWeight: '100',
                 },
                 headerStyle: {
-                    backgroundColor: '#f5ad00'
+                    backgroundColor: '#293239'
                 },
             }),
         },
@@ -43,12 +44,13 @@ const Routes = StackNavigator (
             screen: Contato,
             navigationOptions: ({ navigation }) => ({
                 title: 'Entre em Contato',
+                headerTintColor: '#f5ad00',
                 headerTitleStyle: {
-                    color: '#fff',
+                    color: '#f5ad00',
                     fontWeight: '100',
                 },
                 headerStyle: {
-                    backgroundColor: '#f5ad00'
+                    backgroundColor: '#293239'
                 },
             }),
         },
@@ -56,12 +58,13 @@ const Routes = StackNavigator (
             screen: Geo,
             navigationOptions: ({ navigation }) => ({
                 title: 'Geolocalização',
+                headerTintColor: '#f5ad00',
                 headerTitleStyle: {
-                    color: '#fff',
+                    color: '#f5ad00',
                     fontWeight: '100',
                 },
                 headerStyle: {
-                    backgroundColor: '#f5ad00'
+                    backgroundColor: '#293239'
                 },
             }),
         }
